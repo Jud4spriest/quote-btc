@@ -6,5 +6,5 @@ COPY . .
 
 RUN pip install .
 
-CMD["quote-btc"]
+CMD ["quote-btc"]
 
