@@ -1,4 +1,4 @@
-name: Python CI
+name: Python CI + Build + Docker
 
 on: [push, pull_request]
 
@@ -8,7 +8,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with: 
           python-version: '3.10'
@@ -20,3 +19,31 @@ jobs:
         run: |
           export PYTHONPATH='${{ github.workspace }}'
           pytest
+
+  build:
+    name: Build Python Package
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+      
+      - name: Install build tools
+        run: pip install build
+
+      - name: build project
+        run: pip -m build
+
+  docker:
+    name: build docker image
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build docker image
+        run: docker build -t quote-btc .
