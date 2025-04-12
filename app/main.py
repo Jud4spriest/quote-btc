@@ -4,8 +4,8 @@ import json
 
 API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
 
-def get_btc_price(url):
-    response = requests.get(url)
+def get_btc_price():
+    response = requests.get(API_URL)
     if response.status_code != 200:
         raise Exception(f"Request failed. status: {response.status_code}")
     
@@ -16,7 +16,7 @@ def get_btc_price(url):
 
 def main():
     while True:
-        print(f'BTC: {get_btc_price(API_URL)}')
+        print(f'BTC: {get_btc_price()}')
         time.sleep(12)
         
 
