@@ -28,14 +28,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-      with:
-        python-version: "3.10"
+        with:
+          python-version: "3.10"
       
       - name: Install build tools
         run: pip install build
 
       - name: build project
-        run: pip -m build
+        run: python -m build
+
+      - name: Show artifacts
+        run: ls -lh dist
 
   docker:
     name: build docker image
@@ -47,3 +50,6 @@ jobs:
 
       - name: build docker image
         run: docker build -t quote-btc .
+
+      - name: test contianer
+        run: docker run --rm quote-btc
